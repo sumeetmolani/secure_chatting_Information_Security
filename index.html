@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SecureChat — Encrypted Messaging</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" />
+  <link rel="stylesheet" href="/static/css/style.css" />
+</head>
+<body class="auth-page">
+
+  <!-- Background grid -->
+  <div class="bg-grid" aria-hidden="true"></div>
+  <div class="bg-glow" aria-hidden="true"></div>
+
+  <main class="auth-container">
+
+    <!-- Brand -->
+    <header class="brand">
+      <div class="brand-icon">
+        <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="8" y="18" width="24" height="16" rx="3" stroke="currentColor" stroke-width="2"/>
+          <path d="M13 18V13a7 7 0 0 1 14 0v5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          <circle cx="20" cy="26" r="2.5" fill="currentColor"/>
+        </svg>
+      </div>
+      <h1 class="brand-name">SecureChat</h1>
+      <p class="brand-tagline">End-to-end encrypted · Zero trust</p>
+    </header>
+
+    <!-- Tab switcher -->
+    <div class="tab-bar" role="tablist">
+      <button class="tab-btn active" id="tab-login"
+              role="tab" aria-selected="true"
+              onclick="switchTab('login')">Login</button>
+      <button class="tab-btn" id="tab-signup"
+              role="tab" aria-selected="false"
+              onclick="switchTab('signup')">Sign Up</button>
+    </div>
+
+    <!-- Error / success banners -->
+    <div id="banner" class="banner hidden" role="alert"></div>
+
+    <!-- ── LOGIN FORM ─────────────────────────────────────── -->
+    <section id="panel-login" class="auth-panel" role="tabpanel">
+      <div class="form-group">
+        <label for="login-username">Username</label>
+        <input id="login-username" type="text"
+               autocomplete="username" spellcheck="false"
+               placeholder="your_username" maxlength="32" />
+      </div>
+      <div class="form-group">
+        <label for="login-password">Password</label>
+        <div class="password-wrap">
+          <input id="login-password" type="password"
+                 autocomplete="current-password"
+                 placeholder="••••••••" maxlength="128" />
+          <button class="toggle-pw" type="button"
+                  onclick="togglePassword('login-password', this)"
+                  aria-label="Show password">👁</button>
+        </div>
+      </div>
+      <button class="btn-primary" onclick="doLogin()" id="btn-login">
+        <span class="btn-text">Login</span>
+        <span class="btn-spinner hidden"></span>
+      </button>
+      <p class="form-hint">
+        Accounts lock after <strong>5</strong> failed attempts for 5 minutes.
+      </p>
+    </section>
+
+    <!-- ── SIGNUP FORM ────────────────────────────────────── -->
+    <section id="panel-signup" class="auth-panel hidden" role="tabpanel">
+      <div class="form-group">
+        <label for="signup-username">Username</label>
+        <input id="signup-username" type="text"
+               autocomplete="username" spellcheck="false"
+               placeholder="your_username"
+               maxlength="32"
+               oninput="validateUsernameField(this)" />
+        <small class="field-hint" id="hint-username">
+          3–32 chars. Letters, digits, _ and - only.
+        </small>
+      </div>
+      <div class="form-group">
+        <label for="signup-password">Password</label>
+        <div class="password-wrap">
+          <input id="signup-password" type="password"
+                 autocomplete="new-password"
+                 placeholder="••••••••" maxlength="128"
+                 oninput="updateStrengthMeter(this.value)" />
+          <button class="toggle-pw" type="button"
+                  onclick="togglePassword('signup-password', this)"
+                  aria-label="Show password">👁</button>
+        </div>
+        <!-- Password strength bar -->
+        <div class="strength-bar-wrap">
+          <div class="strength-bar" id="strength-bar"></div>
+        </div>
+        <small class="field-hint" id="hint-password">
+          Min 8 chars · 1 uppercase · 1 digit
+        </small>
+      </div>
+      <button class="btn-primary" onclick="doSignup()" id="btn-signup">
+        <span class="btn-text">Create Account</span>
+        <span class="btn-spinner hidden"></span>
+      </button>
+    </section>
+
+    <!-- Security badges -->
+    <footer class="security-badges">
+      <span class="badge">🔒 AES-256-GCM</span>
+      <span class="badge">🛡 JWT Auth</span>
+      <span class="badge">🔑 bcrypt</span>
+    </footer>
+
+  </main>
+
+  <script src="/static/js/auth.js"></script>
+</body>
+</html>
